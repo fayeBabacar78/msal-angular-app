@@ -5,9 +5,8 @@ import {MsalGuard} from "@azure/msal-angular";
 import {HomeComponent} from "./home/home.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'profile', component: ProfileComponent, canActivate: [MsalGuard]},
-  {path: 'home', component: HomeComponent}
+  {path: '', component: HomeComponent}
 ];
 
 
