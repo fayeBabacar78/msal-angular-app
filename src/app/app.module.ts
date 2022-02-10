@@ -7,7 +7,14 @@ import {ProfileComponent} from './profile/profile.component';
 import {MatButtonModule} from "@angular/material/button";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {
-  MSAL_GUARD_CONFIG, MSAL_INSTANCE, MSAL_INTERCEPTOR_CONFIG, MsalGuard, MsalInterceptor, MsalModule, MsalService
+  MSAL_GUARD_CONFIG,
+  MSAL_INSTANCE,
+  MSAL_INTERCEPTOR_CONFIG,
+  MsalGuard,
+  MsalInterceptor,
+  MsalModule,
+  MsalRedirectComponent,
+  MsalService
 } from "@azure/msal-angular";
 import {HomeComponent} from './home/home.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
@@ -40,15 +47,15 @@ import {MsalGuardConfFactory, MsalInstanceFactory, MsalInterceptorConfFactory} f
       provide: MSAL_INTERCEPTOR_CONFIG,
       useFactory: MsalInterceptorConfFactory
     },
-    { // to allow acquiring tokens for outgoing requests
-      provide: HTTP_INTERCEPTORS,
+    {
+      provide: HTTP_INTERCEPTORS, // for acquiring tokens
       useClass: MsalInterceptor,
       multi: true
     },
     MsalGuard,
     MsalService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, MsalRedirectComponent]
 })
 export class AppModule {
 }

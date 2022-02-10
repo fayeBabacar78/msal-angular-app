@@ -14,7 +14,7 @@ export function MsalInstanceFactory(): IPublicClientApplication {
     auth: {
       clientId: E.clientID,
       authority: 'https://login.windows.net/' + E.tenantID,
-      redirectUri: 'http://localhost:4200/profile', // if login type is redirect
+      redirectUri: 'http://localhost:4200', // if login type is redirect
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage,
@@ -25,14 +25,14 @@ export function MsalInstanceFactory(): IPublicClientApplication {
 
 export function MsalGuardConfFactory(): MsalGuardConfiguration {
   return {
-    interactionType: InteractionType.Popup,
+    interactionType: InteractionType.Redirect, // redirect user to login page if not logged in
     authRequest: {scopes: ['user.read']}
   } as MsalGuardConfiguration;
 }
 
 export function MsalInterceptorConfFactory(): MsalInterceptorConfiguration {
   return {
-    interactionType: InteractionType.Popup,
+    interactionType: InteractionType.Redirect,
     protectedResourceMap: new Map([[E.graph, ['user.read']]])
   } as MsalInterceptorConfiguration
 }
