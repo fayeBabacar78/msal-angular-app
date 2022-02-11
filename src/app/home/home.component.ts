@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {MsalBroadcastService, MsalService} from "@azure/msal-angular";
+import {MsalBroadcastService} from "@azure/msal-angular";
 import {filter} from "rxjs";
 import {EventMessage, EventType, InteractionStatus} from "@azure/msal-browser";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {AuthService} from "../services/auth.service";
 
 @UntilDestroy()
 @Component({
@@ -12,9 +13,8 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 })
 export class HomeComponent implements OnInit {
 
-  isLoggedIn = false;
-
-  constructor(private broadcastService: MsalBroadcastService, private authService: MsalService) { }
+  constructor(private broadcastService: MsalBroadcastService, public authService: AuthService) {
+  }
 
   ngOnInit(): void {
     this.broadcastService.msalSubject$
@@ -28,12 +28,8 @@ export class HomeComponent implements OnInit {
       .pipe(filter((status: InteractionStatus) => status === InteractionStatus.None)) // no interaction
       .pipe(untilDestroyed(this))
       .subscribe(() => {
-        this.isLoggedIn = this.isSignedIn();
+        this.authService.isSignedIn();
       })
-  }
-
-  isSignedIn() {
-    return this.authService.instance.getAllAccounts().length > 0;
   }
 
 }

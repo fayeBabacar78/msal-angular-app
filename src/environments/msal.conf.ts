@@ -8,6 +8,9 @@ import {environment as E} from "./environment.prod";
 import {MsalGuardConfiguration, MsalInterceptorConfiguration} from "@azure/msal-angular";
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
+export const MSAL = {
+  scopes: ['user.read']
+};
 
 export function MsalInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
@@ -26,13 +29,12 @@ export function MsalInstanceFactory(): IPublicClientApplication {
 export function MsalGuardConfFactory(): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Popup, // pop up to ask user credentials for sign in
-    authRequest: {scopes: ['user.read']}
+    authRequest: MSAL
   } as MsalGuardConfiguration;
 }
 
 export function MsalInterceptorConfFactory(): MsalInterceptorConfiguration {
   return {
-    interactionType: InteractionType.Popup, // pop up to ask user accept authorise app for the given scopes
-    protectedResourceMap: new Map([[E.graph, ['user.read']]])
+    interactionType: InteractionType.Popup // pop up to ask user accept authorise app for the given scopes
   } as MsalInterceptorConfiguration
 }

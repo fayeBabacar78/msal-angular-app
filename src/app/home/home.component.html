@@ -1,8 +1,8 @@
-<div *ngIf="!isLoggedIn">
+<div *ngIf="!authService.authenticated">
   <p>Please sign-in to see your profile information.</p>
 </div>
 
-<div *ngIf="isLoggedIn">
+<div *ngIf="authService.authenticated">
   <p>Login successful!</p>
   <p>Request your profile information by clicking Profile above.</p>
 </div>

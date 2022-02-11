@@ -1,13 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {environment as E} from "../../environments/environment.prod";
-
-class ProfileType {
-  givenName?: string;
-  surname?: string;
-  userPrincipalName?: string;
-  id?: string;
-}
+import {AuthService} from "../services/auth.service";
+import {User} from "../user.model";
 
 @Component({
   selector: 'app-profile',
@@ -16,19 +9,12 @@ class ProfileType {
 })
 export class ProfileComponent implements OnInit {
 
-  profile!: ProfileType;
+  user?: User;
 
-  constructor(private http: HttpClient) { }
+  constructor(private authService: AuthService) { }
 
-  ngOnInit(): void {
-    this.getProfile()
-  }
-
-  getProfile() {
-    this.http.get(E.graph)
-      .subscribe(profile => {
-        this.profile = profile;
-      });
+  async ngOnInit() {
+    this.user = await this.authService.getUser();
   }
 
 }
